@@ -1,11 +1,10 @@
 package com.ui.tests;
 
 import com.google.common.collect.ImmutableMap;
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.Cookie;
+import com.microsoft.playwright.options.LoadState;
+import com.microsoft.playwright.options.WaitForSelectorState;
 import com.ui.browsersettings.BrowserManager;
 import com.ui.pages.MainPage;
 import io.qameta.allure.Attachment;
@@ -71,6 +70,7 @@ public abstract class BaseTest {
         page = browserContext.newPage();
         page.navigate(config().baseUrl());
         mainPage = new MainPage(page);
+        page.waitForTimeout(20_000);
     }
 
     @AfterMethod

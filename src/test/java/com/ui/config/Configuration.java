@@ -38,5 +38,8 @@ public interface Configuration extends Config {
     @Key("password")
     String password();
 
+    @Key("file_detector_included")
+    boolean fileDetectorIncluded();
+
     // Но можно поставить key только где ключи составные, типа base.url, остальные поймет и так
 }
