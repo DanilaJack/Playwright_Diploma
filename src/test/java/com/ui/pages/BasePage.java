@@ -100,4 +100,22 @@ public class BasePage {
 
     }
 
+    @Step("Получение последнего загруженного (экспортированного) файла")
+    public File getLatestDownloadedFile(String downloadDir){
+
+        File dir = new File(downloadDir);
+        File[] files = dir.listFiles();
+
+        if (files != null && files.length > 0){
+            File latestFile = files[0];
+            for (File file: files){
+                if (file.lastModified() > latestFile.lastModified()){
+                    latestFile = file;
+                }
+            }
+            return latestFile;
+        }
+        return null;
+    }
+
 }

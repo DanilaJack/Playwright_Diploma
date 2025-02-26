@@ -2,6 +2,7 @@ package com.ui.tests.scenarios;
 
 import com.ui.settings.ProjectSettings;
 import com.ui.tests.BaseTest;
+import com.utils.Excel;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -170,6 +171,7 @@ public class Scenario_2_3 extends BaseTest {
                 .getContextMenu()
                 .clickOnContextMenuOption("Открыть в виде таблицы");
 
+
         int rowsNum = mainPage.scene
                 .getTableView()
                 .clickOnNeededTabOfMultiobject("Элементы")
@@ -179,7 +181,14 @@ public class Scenario_2_3 extends BaseTest {
                 .getTableView()
                 .exportDataFromTable();
 
-        Thread.sleep(5000);
+        Thread.sleep(2000);
 
+        File tableOfElements = mainPage.scene
+                .getTableView()
+                .getLatestDownloadedFile(ProjectSettings.DOWNLOAD_PATH);
+
+        int rowsNum2 = Excel.getRowCount(tableOfElements);
+
+        Assert.assertEquals(rowsNum, rowsNum2);
     }
 }

@@ -24,6 +24,9 @@ dependencies {
 
     implementation 'ru.yandex.qatools.ashot:ashot:1.5.4'
 
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
 }
 
 test {

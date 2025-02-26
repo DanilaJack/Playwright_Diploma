@@ -1,11 +1,14 @@
 package com.ui.fragments;
 
+import com.microsoft.playwright.Download;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import com.ui.pages.BasePage;
+import com.ui.settings.ProjectSettings;
 import io.qameta.allure.Step;
 
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,10 +79,13 @@ public class TableView extends BasePage {
         return current_amount;
     }
 
-    @Step("Экспорт данных из таблицы в csv")
+    @Step("Экспорт данных из таблицы в excel")
     public TableView exportDataFromTable(){
-        exportBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3_000));
-        exportBtn.click();
+
+        Download download = page.waitForDownload(() -> {
+            page.locator("//div[contains(@class, 'table-buttons')]/button").click();
+        });
+        download.saveAs(Paths.get(ProjectSettings.DOWNLOAD_PATH, download.suggestedFilename()));
         return this;
     }
 }

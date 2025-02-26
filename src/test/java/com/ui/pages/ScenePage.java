@@ -1,10 +1,7 @@
 package com.ui.pages;
 
 import com.microsoft.playwright.Page;
-import com.ui.fragments.ContextMenu;
-import com.ui.fragments.ContextPanel;
-import com.ui.fragments.TableView;
-import com.ui.fragments.ViewPanel;
+import com.ui.fragments.*;
 import com.ui.fragments.panelmenu.PanelMenu;
 import com.ui.fragments.rightmenu.RightMenu;
 import lombok.Getter;
@@ -18,6 +15,7 @@ public class ScenePage extends BasePage{
     private final ContextMenu contextMenu;
     private final TableView tableView;
     private final ViewPanel viewPanel;
+    private final LeftToolMenu leftToolMenu;
 
     public ScenePage(Page page) {
         super(page);
@@ -27,5 +25,6 @@ public class ScenePage extends BasePage{
         contextMenu = new ContextMenu(page);
         tableView = new TableView(page);
         viewPanel = new ViewPanel(page);
+        leftToolMenu = new LeftToolMenu(page);
     }
 }
