@@ -4,6 +4,7 @@ import com.microsoft.playwright.Page;
 import com.ui.fragments.*;
 import com.ui.fragments.panelmenu.PanelMenu;
 import com.ui.fragments.rightmenu.RightMenu;
+import com.ui.helperUI.ParameterizedDesign;
 import lombok.Getter;
 
 @Getter
@@ -16,6 +17,7 @@ public class ScenePage extends BasePage{
     private final TableView tableView;
     private final ViewPanel viewPanel;
     private final LeftToolMenu leftToolMenu;
+    private final ParameterizedDesign parameterizedDesign;
 
     public ScenePage(Page page) {
         super(page);
@@ -26,5 +28,6 @@ public class ScenePage extends BasePage{
         tableView = new TableView(page);
         viewPanel = new ViewPanel(page);
         leftToolMenu = new LeftToolMenu(page);
+        parameterizedDesign = new ParameterizedDesign(page);
     }
 }

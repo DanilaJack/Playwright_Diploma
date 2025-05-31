@@ -31,4 +31,11 @@ dependencies {
 
 test {
     useTestNG()
+    systemProperty 'allure.results.directory', 'build/allure-results'
+}
+
+tasks.register('installBrowsers', JavaExec) {
+    mainClass.set('com.microsoft.playwright.CLI')
+    classpath = sourceSets.test.runtimeClasspath
+    args = ['install']
 }

@@ -10,12 +10,12 @@ import java.time.Duration;
 
 public class ObjectsInStorage extends BasePage {
 
-    private final Locator spaceListBut = page.locator("//div[contains(@class,'TreeHeader-module__buttonWrapper')]/button[1]");
+    private final Locator spaceListBut = page.locator("//div[contains(@class,'TreeHeader_buttonWrapper')]/button[1]");
     private final Locator applyBut = page.locator("//div[not(contains(@class, 'FilterModal'))]/button/span[text()='Применить']");
-    private final Locator spaceBut = page.locator("//div[contains(@class, 'TreeHeader-module__selectItemText')]");
-    private final Locator allElementsInStorage = page.locator("//div[contains(@class, 'ant-tree-treenode-switcher-close')]//span[contains(@class, 'threeNodeItemTitle--')]");
+    private final Locator spaceBut = page.locator("//div[contains(@class, 'TreeHeader_selectItemText')]");
+    private final Locator allElementsInStorage = page.locator("//span[contains(@class, 'threeNodeItemTitle_')]");
     private final Locator NetBut = page.locator("//div[text()='Сети']");
-    private final Locator eyeButs = page.locator("//div[contains(@class,'TreeNodeTitle-module__buttonWrapper')]/button[2]");
+    private final Locator eyeButs = page.locator("//div[contains(@class,'TreeNodeTitle_buttonWrapper')]/button[2]");
 
 
 
@@ -46,10 +46,14 @@ public class ObjectsInStorage extends BasePage {
 
     @Step("Выбор пространства - {spaceName}")
     public ObjectsInStorage setSpace(String spaceName) {
-        Locator requiredSpace = page.locator("//div[contains(@class, 'TreeHeader-module__selectItem--')]//div[text()='" + spaceName + "']");
+        Locator requiredSpace = page.locator("//div[contains(@class, 'TreeHeader_selectItem')]//div[text()='" + spaceName + "']");
         spaceBut.hover();
         spaceBut.click();
         waitLoading(1);
+
+        while (!requiredSpace.isVisible()) {
+            page.keyboard().press("ArrowDown");
+        }
         requiredSpace.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(2_000));
         requiredSpace.click();
         waitLoading(2);
@@ -59,7 +63,7 @@ public class ObjectsInStorage extends BasePage {
     @Step("Развернуть все папки в объектах хранилища")
     public ObjectsInStorage unrollAllFoldersInStorage() {
         waitLoading(1);
-        Locator folders = page.locator("//div[@id='LocalTree_TreeWrapper']//span[@class='ant-tree-switcher ant-tree-switcher_close']");
+        Locator folders = page.locator("//div[@id='LocalTree_TreeWrapper']//div[@role='treeitem' and @aria-expanded='false']//div[contains(@class, 'FolderArrowNode_folderTitle')]");
         while (!folders.all().isEmpty()) {
             folders.all().getFirst().waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(2_000));
             folders.all().getFirst().click();

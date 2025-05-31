@@ -20,7 +20,7 @@ public class Sessions {
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .when()
-                .delete("https://objects.dev.ggis.iccdev.ru/sessions")
+                .delete("https://objects.stage.ggis.iccdev.ru/ggis/api/sessions")
                 .then()
                 .statusCode(200);
     }

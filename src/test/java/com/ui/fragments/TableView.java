@@ -17,7 +17,7 @@ public class TableView extends BasePage {
 
     private final Locator namesOfGOAttrList = page.locator("//div[contains(@class, 'ggis-table-MainContent-module__tableHeadCellText-')]");
     private final Locator backToSceneModeBut = page.locator("//button/div[text()='Вернуться на сцену']");
-    private final Locator table = page.locator("//div[contains(@class, 'ggis-table-TableRootWrapper-module__table-wrapper')]");
+    private final Locator table = page.locator("//article[contains(@class, 'TableContainer')]");
     private final Locator exportBtn = page.locator("//div[contains(@class, 'table-buttons')]/button");
 
 
@@ -54,6 +54,7 @@ public class TableView extends BasePage {
     @Step("Получение общее количество элементов во всех геометриях в МО")
     public int getFullAmountOfElements(){
 
+        waitLoading(1);
         int current_amount = 0;
         List<String> current_numbers = new ArrayList<>();
 
@@ -63,6 +64,7 @@ public class TableView extends BasePage {
         current_amount = current_numbers.size();
 
         do{
+           waitLoading(2);
             table.evaluate("element => element.scrollTop += 500");
             waitLoading(2);
 

@@ -5,16 +5,24 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import com.ui.pages.BasePage;
 import io.qameta.allure.Step;
+import org.openqa.selenium.Keys;
 
 import java.time.Duration;
+
 
 public class Properties extends BasePage {
 
     private final String attributeValueInput = "//div[contains(@class, 'PropertyMultiObject-module__name--')";
-    private final Locator bindBut = page.locator("//div[contains(@class, 'BindingButtonBlock-module__')]/button[1]");
-    private final Locator spaceInput = page.locator("//span[@class='ant-select-selection-item']/span[contains(@class, 'SelectWorkspace-module__option')]");
-    private final Locator templateInput = page.locator("//span[contains(text(), 'Выберите шаблон бизнес-объекта')]/../span/input");
-    private final Locator createBut = page.locator("//div[contains(@class, 'BindingFooter-module__buttonPanel')]/button");
+    private final Locator bindBut = page.locator("//div[contains(@class, 'BindingButtonBlock')]/button[1]");
+    private final Locator toggleToFillingGroup = page.locator("//div[contains(@class, 'PropertyListControlButtons_segmented')]//label[not(contains(@class, 'selected'))]");
+    private final Locator selectObjTypeBtn = page.locator("//div[contains(@class, 'PropertyMultiObject_selectType')]");
+    private final Locator attrNameInput = page.locator("//input[@placeholder='Введите имя атрибута']");
+    private final Locator attrValueInput = page.locator("//input[@placeholder='Введите значение']");
+    private final Locator saveEditAttrBtn = page.locator("//button[contains(@class, 'PropertyMultiObject_saveBtn')]");
+
+    private final Locator addNewFillingGroupForPMBtn = page.locator("//button/span[text()='Добавить группу свойств']");
+
+    private final String dropDownEl = "//div[contains(@class, 'ant-select-dropdown ') and not(contains(@class, 'ant-select-dropdown-hidden'))]";
 
 
     public Properties(Page page) {
@@ -44,49 +52,56 @@ public class Properties extends BasePage {
         return this;
     }
 
-    @Step("Выбор пространства - {spaceName}")
-    public Properties chooseSpace(String spaceName) throws InterruptedException {
+    @Step("Переключиться на другую вкладку -> в группу свойств для наполнения или для объекта")
+    public Properties switchToOtherTabForFilling() {
+        toggleToFillingGroup.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        toggleToFillingGroup.click();
+        return this;
+    }
 
-        Locator requiredSpace = page.locator("//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//span[text()='"+spaceName+"']");
-        spaceInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3_000));
-        spaceInput.click();
+    @Step("Клик на кнопку добавления новой группы свойств для наполнения Полигональной модели")
+    public Properties clickAddNewGroupOfPropsForPM() {
+        addNewFillingGroupForPMBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        addNewFillingGroupForPMBtn.click();
+        return this;
+    }
 
-        while (!requiredSpace.isVisible()) {
-            page.keyboard().press("Arrow_down");
-        }
-        requiredSpace.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3_000));
-        requiredSpace.click();
+
+    @Step("Изменить/присвоить имя группы свойств наполнения")
+    public Properties giveNameToGroupOfProps(String groupName) {
+        Locator nameField = page.locator("//span[contains(@class, 'PropertyGroupName') and contains(@class, 'inputSimple')]");
+        nameField.dblclick();
+
+        Locator input = nameField.locator("xpath=./input");
+        input.clear();
+        input.fill(groupName);
+        page.keyboard().press("Enter");
 
         return this;
     }
 
-    @Step("Выбор шаблона - {template} из списка")
-    public Properties chooseTemplate(String template) {
-        Locator requiredObj = page.locator("//div[@class='ant-select-item-option-content']//span[text()='"+template+"']");
-        templateInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3_000));
-        templateInput.click();
+    @Step("Добавить новое свойство в группу свойств наполнения")
+    public Properties addNewPropToGroupOfProps(String group, String type, String name, String value) {
 
-        while (!requiredObj.isVisible()){
-            page.keyboard().press("Arrow_down");
+        Locator groupSegment = page.locator("//span[text()='" + group + "']/ancestor::div[contains(@class, 'ant-collapse-item')][1]");
+        groupSegment.locator("xpath=.//button[contains(@class, 'PropertiesGroupPanel_editBtn')]/span[contains(text(), 'Добавить свойство')]").click();
+
+        waitLoading(1);
+        selectObjTypeBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        selectObjTypeBtn.click();
+
+        waitLoading(1);
+        page.locator(dropDownEl + "//span[text()='" + type + "']").click();
+
+        attrNameInput.clear();
+        attrNameInput.fill(name);
+
+        waitLoading(1);
+        if (!value.isEmpty()) {
+            attrValueInput.clear();
+            attrValueInput.fill(value);
         }
-        requiredObj.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3_000));
-        requiredObj.click();
-        return this;
-    }
-
-    @Step("Нажатие на кнопку - создать/сохранить")
-    public Properties pressCreateBut() {
-        createBut.click();
-        waitLoading(2);
-
-        Locator success_message = page.locator("//div[contains(text(),'Новый бизнес объект создан и помещен в хранилище')]");
-
-        while (!success_message.isVisible()) {
-            waitLoading(1);
-        }
-        waitLoading(2);
-
-        System.out.println("Данные успешно сохранены.");
+        saveEditAttrBtn.click();
 
         return this;
     }

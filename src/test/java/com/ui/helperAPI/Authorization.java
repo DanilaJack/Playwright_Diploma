@@ -21,7 +21,7 @@ public class Authorization {
                 )
                 .body("{\"username\":\"" + username + "\",\"password\":\"" + password + "\"}")
                 .when()
-                .post("https://app.dev.ggis.iccdev.ru/ggis/api/auth")
+                .post("https://authorise.stage.ggis.iccdev.ru/ggis/api/auth")
                 .then()
                 .log().all()
                 .statusCode(200)
