@@ -2,6 +2,7 @@ package com.ui.tests.scenarios;
 
 import com.ui.settings.ProjectSettings;
 import com.ui.tests.BaseTest;
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -18,6 +19,7 @@ import static java.lang.Thread.sleep;
 public class Scenario_2_8 extends BaseTest {
 
     @Test
+    @Step("Открыть страницу google.com")
     public void scenarioTest_1_approach() throws InterruptedException, IOException {
         page = browserContext.newPage();
         page.navigate(config().baseUrl());
