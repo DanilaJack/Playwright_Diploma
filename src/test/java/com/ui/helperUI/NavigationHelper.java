@@ -6,6 +6,7 @@ import com.microsoft.playwright.Mouse;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.*;
+import com.ui.fragments.StatusLine;
 import com.ui.pages.BasePage;
 import io.qameta.allure.Step;
 
@@ -88,6 +89,45 @@ public class NavigationHelper extends BasePage {
         canvas.evaluate(script);
 
         return this;
+    }
+
+    @Step("Перемещаться попиксельно в соответствие с координатами курсора в статусной строке")
+    public NavigationHelper moveToCoordinates(double targetX, double targetY, Page page) {
+        StatusLine statusLine = new StatusLine(page);
+        int largeStep = 25, mediumStep = 10, smallStep = 1;
+
+        double currentX = Double.parseDouble(statusLine.getCoordinates().get(0));
+        double currentY = Double.parseDouble(statusLine.getCoordinates().get(1));
+
+        // Стартовая позиция мыши (например, из середины экрана)
+        double cursorX = currentX;
+        double cursorY = currentY;
+
+        while (Math.abs(currentX - targetX) > 1 || Math.abs(currentY - targetY) > 1) {
+
+            int stepX = chooseStep(currentX, targetX, largeStep, mediumStep, smallStep);
+            int stepY = chooseStep(currentY, targetY, largeStep, mediumStep, smallStep);
+
+            if (Math.abs(currentX - targetX) > 1) {
+                cursorX += (currentX < targetX ? stepX : -stepX);
+            }
+            if (Math.abs(currentY - targetY) > 1) {
+                cursorY += (currentY < targetY ? -stepY : stepY); // Важно: в некоторых UI Y идёт вниз
+            }
+
+            page.mouse().move(cursorX, cursorY);
+            currentX = Double.parseDouble(statusLine.getCoordinates().get(0));
+            currentY = Double.parseDouble(statusLine.getCoordinates().get(1));
+        }
+
+        return this;
+    }
+
+    private int chooseStep(double current, double target, int large, int medium, int small) {
+        double delta = Math.abs(current - target);
+        if (delta < medium) return small;
+        if (delta < large) return medium;
+        return large;
     }
 
 

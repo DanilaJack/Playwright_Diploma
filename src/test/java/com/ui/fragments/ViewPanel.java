@@ -71,4 +71,9 @@ public class ViewPanel extends BasePage {
         return this;
     }
 
+    public ViewPanel zoomOut(){
+        page.locator("id=panel_zoom_minus").click();
+        return this;
+    }
+
 }

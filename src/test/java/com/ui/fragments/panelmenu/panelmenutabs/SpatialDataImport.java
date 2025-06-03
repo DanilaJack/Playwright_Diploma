@@ -69,4 +69,18 @@ public class SpatialDataImport extends BasePage {
         page.setDefaultTimeout(config().timeOut());
         return this;
     }
+
+    // Способ сохранения объекта
+    @Step("Дописать в объект")
+    public SpatialDataImport selectAddToObject(){
+        page.locator("//div[contains(@class,'ImportSaveOptionBlock')]/label[2]").click();
+        return this;
+    }
+
+    @Step("Поле - Введите объект, при выборе - Дописать в объект")
+    public SpatialDataImport selectInputObject(String item){
+        page.locator("//div[contains(@class,'ImportSaveOptionBlock')]/span[contains(@class,'ImportSaveOptionBlock_input')]").click();
+        page.locator("//div[contains(@class,'ImportSelect_option') and text()='"+ item +"']").click();
+        return this;
+    }
 }

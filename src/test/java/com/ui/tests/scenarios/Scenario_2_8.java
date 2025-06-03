@@ -1,28 +1,24 @@
-package com.ui.tests.scenarios;
-
-import com.ui.settings.ProjectSettings;
-import com.ui.tests.BaseTest;
-import io.qameta.allure.Step;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-import static com.ui.config.ConfigurationManager.config;
-import static com.utils.TxtFileProcessing.fileReaderIntoDoubleArray;
-import static java.lang.Thread.sleep;
-
-public class Scenario_2_8 extends BaseTest {
-
-    @Test
-    @Step("Открыть страницу google.com")
-    public void scenarioTest_1_approach() throws InterruptedException, IOException {
-        page = browserContext.newPage();
-        page.navigate(config().baseUrl());
+//package com.ui.tests.scenarios;
+//
+//import com.ui.settings.ProjectSettings;
+//import com.ui.tests.BaseTest;
+//import org.testng.Assert;
+//import org.testng.annotations.Test;
+//
+//import java.io.File;
+//import java.io.IOException;
+//import java.time.LocalDateTime;
+//import java.time.format.DateTimeFormatter;
+//import java.util.List;
+//
+//import static com.utils.TxtFileProcessing.fileReaderIntoDoubleArray;
+//import static java.lang.Thread.sleep;
+//
+//public class Scenario_2_8 extends BaseTest {
+//
+//    @Test
+//    public void scenarioTest_1_approach() throws InterruptedException, IOException {
+//
 //        //Объекты для импорта
 //        String[] resources = {"Поверхность основания склада", "Точки съемки склада породы"};
 //
@@ -34,7 +30,7 @@ public class Scenario_2_8 extends BaseTest {
 //                .pressFileBut()
 //                .getSpatialDataImport()
 //                .importSpatialData(ProjectSettings.RESOURCES_PATH_FILES_FOR_SCENARIOS, 5, "/scenario_2_8/"+resources[0]+".tridb", "/scenario_2_8/"+resources[1]+".DAT")
-//                .clickOnFileInCatalog(resources[0]+".tridb")
+//                .clickOnFileInCatalog(resources[0]+".tridbf")
 //                .pressImportButton();
 //
 //
@@ -368,5 +364,5 @@ public class Scenario_2_8 extends BaseTest {
 //
 //        // Проверка, что файл пришел в хранилище с импользованием проверку на время
 //        Assert.assertTrue(exportedFile.getName().contains(currentDateTime2) || exportedFile.getName().contains(currentDateTime1));
-    }
-}
+//    }
+//}

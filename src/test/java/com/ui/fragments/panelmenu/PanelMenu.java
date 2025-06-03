@@ -7,6 +7,7 @@ import com.ui.fragments.panelmenu.panelmenutabs.SpatialDataImport;
 import com.ui.pages.BasePage;
 import io.qameta.allure.Step;
 import lombok.Getter;
+import org.openqa.selenium.By;
 
 @Getter
 public class PanelMenu extends BasePage {
@@ -17,6 +18,7 @@ public class PanelMenu extends BasePage {
     private final Locator moveToSceneBtn = page.locator("//button[@id='editing']/preceding-sibling::button[1]");
 
     private final Locator exportFromCanvas = page.locator("//div[contains(@class, 'NavMenuContentItem_navContent') and text()='Экспорт объектов холста в *.dxf']");
+    private final Locator saveSettingsBtn = page.locator("id=save");
 
 
     public PanelMenu(Page page) {
@@ -49,6 +51,12 @@ public class PanelMenu extends BasePage {
     @Step("Нажать на экспорт объектов с холста")
     public PanelMenu pressExportFromCanvas(){
         exportFromCanvas.click();
+        return this;
+    }
+
+    @Step("Нажать на кнопку 'Сохранить настройки сессии'")
+    public PanelMenu pressSaveSettings(){
+        saveSettingsBtn.click();
         return this;
     }
 

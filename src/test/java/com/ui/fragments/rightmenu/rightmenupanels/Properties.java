@@ -12,7 +12,7 @@ import java.time.Duration;
 
 public class Properties extends BasePage {
 
-    private final String attributeValueInput = "//div[contains(@class, 'PropertyMultiObject-module__name--')";
+    private final String attributeValueInput = "//div[contains(@class, 'PropertyMultiObject_name')";
     private final Locator bindBut = page.locator("//div[contains(@class, 'BindingButtonBlock')]/button[1]");
     private final Locator toggleToFillingGroup = page.locator("//div[contains(@class, 'PropertyListControlButtons_segmented')]//label[not(contains(@class, 'selected'))]");
     private final Locator selectObjTypeBtn = page.locator("//div[contains(@class, 'PropertyMultiObject_selectType')]");
@@ -104,5 +104,10 @@ public class Properties extends BasePage {
         saveEditAttrBtn.click();
 
         return this;
+    }
+
+    @Step("Получить количество геометрических объектов внутри одного мультиобъекта")
+    public int getAamountOfGeoObjects(){
+        return Integer.parseInt(page.locator("//span[contains(text(),'Свойства геометрических')]").textContent().replaceAll("\\D+", ""));
     }
 }

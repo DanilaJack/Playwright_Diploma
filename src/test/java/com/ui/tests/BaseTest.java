@@ -56,8 +56,8 @@ public abstract class BaseTest {
         }
         browserContext.setDefaultTimeout(config().timeOut());
 
-//        String accessToken = getAccessToken(config().username(), config().password());
-//        delete_all_sessions();
+        String accessToken = getAccessToken(config().username(), config().password());
+        delete_all_sessions();
 
 //        List<Cookie> cookies = List.of(
 //                new Cookie("access-token", accessToken)
@@ -69,20 +69,20 @@ public abstract class BaseTest {
 //        browserContext.addCookies(cookies);
 
 
-//        page = browserContext.newPage();
-//        page.navigate(config().baseUrl());
-//        mainPage = new MainPage(page);
-//
-//        page.locator("#username").waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3_000));
-//        page.locator("#username").fill(config().username());
-//
-//        Thread.sleep(1000);
-//        page.locator("#password").waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3_000));
-//        page.locator("#password").fill(config().password());
-//
-//        Thread.sleep(1000);
-//        page.locator("#kc-login").click();
-//        page.waitForTimeout(20_000);
+        page = browserContext.newPage();
+        page.navigate(config().baseUrl());
+        mainPage = new MainPage(page);
+
+        page.locator("#username").waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3_000));
+        page.locator("#username").fill(config().username());
+
+        Thread.sleep(1000);
+        page.locator("#password").waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3_000));
+        page.locator("#password").fill(config().password());
+
+        Thread.sleep(1000);
+        page.locator("#kc-login").click();
+        page.waitForTimeout(20_000);
     }
 
     @AfterMethod

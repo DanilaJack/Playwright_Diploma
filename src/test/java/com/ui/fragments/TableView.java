@@ -1,12 +1,11 @@
 package com.ui.fragments;
 
-import com.microsoft.playwright.Download;
-import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
+import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import com.ui.pages.BasePage;
 import com.ui.settings.ProjectSettings;
 import io.qameta.allure.Step;
+import org.openqa.selenium.Keys;
 
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -81,6 +80,51 @@ public class TableView extends BasePage {
         return current_amount;
     }
 
+    @Step("Получение общего количества элементов во всех геометриях в МО")
+    public int getFullAmountOfElements2() {
+        int currentAmount = 0;
+        List<String> currentNumbers;
+
+        Locator accessedRows = page.locator("//tbody//tr/td[@data-type='row_select']//div[@data-value='row-number']");
+
+        currentNumbers = accessedRows.allTextContents();
+        currentAmount = currentNumbers.size();
+
+        page.waitForTimeout(4000);
+
+        do {
+            // Получаем элемент DOM из локатора
+            Locator table = page.locator("//article[contains(@class, 'TableContainer')]");
+            ElementHandle tableElement = table.elementHandle(); // <-- добавлено
+
+            if (tableElement != null) {
+                // Прокручиваем вниз
+                page.evaluate("el => el.scrollTop += 500", tableElement);
+            }
+
+            page.waitForTimeout(1000);
+
+            List<String> allNumbers = accessedRows.allTextContents();
+
+            int finalCurrentAmount = currentAmount;
+            List<String> newNumbers = allNumbers.stream()
+                    .filter(n -> {
+                        try {
+                            return Integer.parseInt(n.replaceAll("[^\\d]", "")) > finalCurrentAmount;
+                        } catch (NumberFormatException e) {
+                            return false;
+                        }
+                    })
+                    .toList();
+
+            currentAmount += newNumbers.size();
+            currentNumbers = newNumbers;
+
+        } while (!currentNumbers.isEmpty());
+
+        return currentAmount;
+    }
+
     @Step("Экспорт данных из таблицы в excel")
     public TableView exportDataFromTable(){
 
@@ -88,6 +132,41 @@ public class TableView extends BasePage {
             page.locator("//div[contains(@class, 'table-buttons')]/button").click();
         });
         download.saveAs(Paths.get(ProjectSettings.DOWNLOAD_PATH, download.suggestedFilename()));
+        return this;
+    }
+
+    @Step("Воспользоваться глобальным поиском в табличном представление")
+    public TableView globalSearch(String value){
+        page.locator("//div[contains(@class, 'GlobalFilterComponent')]/button").click();
+        waitLoading(1);
+        page.locator("//div[contains(@class, 'GlobalFilterComponent')]//input").fill(value);
+        page.keyboard().press("Enter");
+        waitLoading(1);
+        return this;
+    }
+
+    @Step("Редактировать ячейку таблицы по имени ГО")
+    public TableView editCellInTable(String nameGO, String column, String value) {
+        // Находим нужную ячейку по тексту в колонке "Имя ГО" и целевому столбцу
+        Locator cell = page.locator("//td[@data-type='Имя ГО']/span[contains(text(), '" + nameGO + "')]")
+                .locator("xpath=../../td[@data-type='" + column + "']");
+
+        // Двойной клик по ячейке
+        cell.dblclick();
+
+        // Ждём появления поля ввода внутри ячейки (если оно появляется)
+        page.waitForTimeout(1000); // waitLoading(1) аналогично
+
+        // Выделяем всё и удаляем
+        page.keyboard().press("Control+A");
+        page.keyboard().press("Backspace");
+
+        // Вводим новое значение
+        page.keyboard().type(value);
+
+        // Подтверждаем Enter'ом
+        page.keyboard().press("Enter");
+
         return this;
     }
 }
