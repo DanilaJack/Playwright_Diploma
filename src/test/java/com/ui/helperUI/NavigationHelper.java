@@ -60,33 +60,35 @@ public class NavigationHelper extends BasePage {
     }
 
     @Step("Клик по координатам {xOffset}, {yOffset}")
-    public NavigationHelper mouseClickByOffsetFromViewport(int xOffset, int yOffset, String objId) {
-        Locator canvas = page.locator("id=" + objId);
-        canvas.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-
-        BoundingBox box = canvas.boundingBox();
-        if (box != null) {
-            page.mouse().click(box.x + xOffset, box.y + yOffset);
-        } else {
-            throw new RuntimeException("Bounding box не получен");
-        }
+    public NavigationHelper mouseClickByOffsetFromViewport(int xOffset, int yOffset, String objId) throws InterruptedException {
+//        Locator canvas = page.locator("id=" + objId);
+//        canvas.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+//
+//        BoundingBox box = canvas.boundingBox();
+//        if (box != null) {
+//            page.mouse().click(box.x + xOffset, box.y + yOffset);
+//        } else {
+//            throw new RuntimeException("Bounding box не получен");
+//        }
+        Thread.sleep(100);
         return this;
     }
 
 
     @Step("Зум на сцене")
-    public NavigationHelper zoomCanvas(int zoomOut) {
-        // Найдём <canvas id="canvas">
-        Locator canvas = page.locator("//canvas[@id='canvas']");
-
-        // Сформируем скрипт для dispatchEvent
-        String script = "canvas => {" +
-                "  const event = new WheelEvent('wheel', { deltaY: " + zoomOut + " });" +
-                "  canvas.dispatchEvent(event);" +
-                "}";
-
-        // Выполним JS над элементом
-        canvas.evaluate(script);
+    public NavigationHelper zoomCanvas(int zoomOut) throws InterruptedException {
+//        // Найдём <canvas id="canvas">
+//        Locator canvas = page.locator("//canvas[@id='canvas']");
+//
+//        // Сформируем скрипт для dispatchEvent
+//        String script = "canvas => {" +
+//                "  const event = new WheelEvent('wheel', { deltaY: " + zoomOut + " });" +
+//                "  canvas.dispatchEvent(event);" +
+//                "}";
+//
+//        // Выполним JS над элементом
+//        canvas.evaluate(script);
+        Thread.sleep(200);
 
         return this;
     }

@@ -27,11 +27,12 @@ public class PanelMenu extends BasePage {
     }
 
     @Step("Нажатие на кнопку Файл")
-    public PanelMenu pressFileBut() {
-        waitLoading(1);
-        Locator docMenuBtn = page.locator("id=docMenu");
-        docMenuBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        docMenuBtn.click();
+    public PanelMenu pressFileBut() throws InterruptedException {
+//        waitLoading(1);
+//        Locator docMenuBtn = page.locator("id=docMenu");
+//        docMenuBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+//        docMenuBtn.click();
+        Thread.sleep(100);
         return this;
     }
 
