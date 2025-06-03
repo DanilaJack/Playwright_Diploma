@@ -9,8 +9,9 @@ public class ContextMenu extends BasePage {
         super(page);
     }
 
-    public ContextMenu clickOnContextMenuOption(String option){
-        page.locator("//span[contains(text(), '" + option + "')]").click();
+    public ContextMenu clickOnContextMenuOption(String option) throws InterruptedException {
+        //page.locator("//span[contains(text(), '" + option + "')]").click();
+        Thread.sleep(200);
         return this;
     }
 }

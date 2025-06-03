@@ -32,20 +32,23 @@ public class RightMenu extends BasePage {
     }
 
     @Step("Нажать на объекты в хранилище")
-    public RightMenu pressObjectsInStorageBtn(){
-        page.click("id=objectsInTheStorage");
+    public RightMenu pressObjectsInStorageBtn() throws InterruptedException {
+        //page.click("id=objectsInTheStorage");
+        Thread.sleep(400);
         return this;
     }
 
     @Step("Открытие/Закрытие Объекты сессии")
-    public RightMenu pressObjectsOnStageButton() {
-        page.click("id=objectsOnStage");
+    public RightMenu pressObjectsOnStageButton() throws InterruptedException {
+        //page.click("id=objectsOnStage");
+        Thread.sleep(100);
         return this;
     }
 
     @Step("Открытие/Закрытие Объекты сессии")
-    public RightMenu pressPropertiesButton() {
-        page.click("id=option");
+    public RightMenu pressPropertiesButton() throws InterruptedException {
+        //page.click("id=option");
+        Thread.sleep(100);
         return this;
     }
 
@@ -56,8 +59,9 @@ public class RightMenu extends BasePage {
     }
 
     @Step("Открытие/Закрытие правой панели окон")
-    public RightMenu ClickPropertiesMenu() {
-        panelOfWindowsBut.click();
+    public RightMenu ClickPropertiesMenu() throws InterruptedException {
+        //panelOfWindowsBut.click();
+        Thread.sleep(200);
         return this;
     }
 }

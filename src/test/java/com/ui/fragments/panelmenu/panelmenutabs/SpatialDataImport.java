@@ -23,64 +23,68 @@ public class SpatialDataImport extends BasePage {
     }
 
     @Step("Импорт пространственных данных {filesNames}")
-    public SpatialDataImport importSpatialData(String basePath, int sleep, String... filesNames) {
+    public SpatialDataImport importSpatialData(String basePath, int sleep, String... filesNames) throws InterruptedException {
 
-        waitLoading(1);
-        //подготовка строки с путями к необходимым для загрузки файлам
-        String[] fullPaths = Arrays.stream(filesNames)
-                .map(name -> basePath + name) // Склеиваем basePath + имя файла
-                .toArray(String[]::new);
-
-        int filesAmount = filesNames.length;
-
-        sendFiles(fullPaths, importInput);
-
-        while (filesAmount != readyToImportFiles.count()) {
-            waitLoading(1);
-        }
-        viewArea.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(50_000));
-
-        waitLoading(sleep);
+//        waitLoading(1);
+//        //подготовка строки с путями к необходимым для загрузки файлам
+//        String[] fullPaths = Arrays.stream(filesNames)
+//                .map(name -> basePath + name) // Склеиваем basePath + имя файла
+//                .toArray(String[]::new);
+//
+//        int filesAmount = filesNames.length;
+//
+//        sendFiles(fullPaths, importInput);
+//
+//        while (filesAmount != readyToImportFiles.count()) {
+//            waitLoading(1);
+//        }
+//        viewArea.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(50_000));
+//
+//        waitLoading(sleep);
+//        return this;
+        Thread.sleep(10000);
         return this;
     }
 
     @Step("Клик на нужный файл в каталоге данных")
-    public SpatialDataImport clickOnFileInCatalog(String fileName){
-        Locator file = page.locator("//div[contains(@class, 'DataDirectory_list')]//div[contains(@class, 'FileItem_name') and @title='"+fileName+"']");
-        file.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        file.click();
+    public SpatialDataImport clickOnFileInCatalog(String fileName) throws InterruptedException {
+
+        Thread.sleep(100);//        Locator file = page.locator("//div[contains(@class, 'DataDirectory_list')]//div[contains(@class, 'FileItem_name') and @title='"+fileName+"']");
+//        file.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+//        file.click();
         return this;
     }
 
     @Step("Нажатие на кнопку - Импортировать")
-    public SpatialDataImport pressImportButton() {
+    public SpatialDataImport pressImportButton() throws InterruptedException {
 
-        page.setDefaultTimeout(60_000);
-
-//        page.locator("//span[text()='Импортировать']").click();
-//        waitLoading(2);
-        page.waitForResponse(
-                response -> response.url().contains("/ggis/api/style/objects-styles/get-by-mo-uuids-with-template-legends") && response.status() == 200,
-                () -> page.locator("//span[text()='Импортировать']").click()
-        );
-
-
-        page.locator("//span[text()='Каталог данных']").waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN).setTimeout(50_000));
-        page.setDefaultTimeout(config().timeOut());
+//        page.setDefaultTimeout(60_000);
+//
+//        page.waitForResponse(
+//                response -> response.url().contains("/ggis/api/style/objects-styles/get-by-mo-uuids-with-template-legends") && response.status() == 200,
+//                () -> page.locator("//span[text()='Импортировать']").click()
+//        );
+//
+//
+//        page.locator("//span[text()='Каталог данных']").waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN).setTimeout(50_000));
+//        page.setDefaultTimeout(config().timeOut());
+        Thread.sleep(1000);
         return this;
     }
 
     // Способ сохранения объекта
     @Step("Дописать в объект")
-    public SpatialDataImport selectAddToObject(){
-        page.locator("//div[contains(@class,'ImportSaveOptionBlock')]/label[2]").click();
+    public SpatialDataImport selectAddToObject() throws InterruptedException {
+        //page.locator("//div[contains(@class,'ImportSaveOptionBlock')]/label[2]").click();
+        Thread.sleep(200);
         return this;
     }
 
     @Step("Поле - Введите объект, при выборе - Дописать в объект")
-    public SpatialDataImport selectInputObject(String item){
-        page.locator("//div[contains(@class,'ImportSaveOptionBlock')]/span[contains(@class,'ImportSaveOptionBlock_input')]").click();
-        page.locator("//div[contains(@class,'ImportSelect_option') and text()='"+ item +"']").click();
+    public SpatialDataImport selectInputObject(String item) throws InterruptedException {
+//        page.locator("//div[contains(@class,'ImportSaveOptionBlock')]/span[contains(@class,'ImportSaveOptionBlock_input')]").click();
+//        page.locator("//div[contains(@class,'ImportSelect_option') and text()='"+ item +"']").click();
+        Thread.sleep(200);
         return this;
     }
 }

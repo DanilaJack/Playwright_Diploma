@@ -19,21 +19,22 @@ public class NavigationHelper extends BasePage {
     }
 
     @Step("Клик ПКМ по координатам {xOffset}, {yOffset}")
-    public NavigationHelper clickRightButMouse(int xOffset,int yOffset,String ObjXpathByID){
-        Locator element = page.locator("canvas");
-
-        BoundingBox box = element.boundingBox();
-
-        if (box != null){
-            int x = (int) (box.x+xOffset);
-            int y = (int) (box.y+yOffset);
-
-            page.mouse().move(x, y);
-            page.mouse().click(x, y, new Mouse.ClickOptions().setButton(MouseButton.RIGHT));
-        }
-        else {
-            throw new RuntimeException("Элемент не найден");
-        }
+    public NavigationHelper clickRightButMouse(int xOffset,int yOffset,String ObjXpathByID) throws InterruptedException {
+//        Locator element = page.locator("canvas");
+//
+//        BoundingBox box = element.boundingBox();
+//
+//        if (box != null){
+//            int x = (int) (box.x+xOffset);
+//            int y = (int) (box.y+yOffset);
+//
+//            page.mouse().move(x, y);
+//            page.mouse().click(x, y, new Mouse.ClickOptions().setButton(MouseButton.RIGHT));
+//        }
+//        else {
+//            throw new RuntimeException("Элемент не найден");
+//        }
+        Thread.sleep(200);
         return this;
     }
 

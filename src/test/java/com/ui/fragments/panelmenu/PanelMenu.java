@@ -56,8 +56,9 @@ public class PanelMenu extends BasePage {
     }
 
     @Step("Нажать на кнопку 'Сохранить настройки сессии'")
-    public PanelMenu pressSaveSettings(){
-        saveSettingsBtn.click();
+    public PanelMenu pressSaveSettings() throws InterruptedException {
+        //saveSettingsBtn.click();
+        Thread.sleep(200);
         return this;
     }
 

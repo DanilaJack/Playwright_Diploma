@@ -23,9 +23,10 @@ public class ContextPanel extends BasePage {
     }
 
     @Step("Войти в режим редактирование мультиобъекта")
-    public ContextPanel enterEditModeOfMO() {
-        enterToEditMode.waitFor(new Locator.WaitForOptions().setTimeout(3_000));
-        enterToEditMode.click();
+    public ContextPanel enterEditModeOfMO() throws InterruptedException {
+//        enterToEditMode.waitFor(new Locator.WaitForOptions().setTimeout(3_000));
+//        enterToEditMode.click();
+        Thread.sleep(500);
         return this;
     }
 

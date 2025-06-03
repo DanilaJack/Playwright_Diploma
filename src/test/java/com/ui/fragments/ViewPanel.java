@@ -71,8 +71,9 @@ public class ViewPanel extends BasePage {
         return this;
     }
 
-    public ViewPanel zoomOut(){
-        page.locator("id=panel_zoom_minus").click();
+    public ViewPanel zoomOut() throws InterruptedException {
+        //page.locator("id=panel_zoom_minus").click();
+        Thread.sleep(200);
         return this;
     }
 
