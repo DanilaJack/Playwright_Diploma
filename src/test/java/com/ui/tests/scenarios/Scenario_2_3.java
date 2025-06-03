@@ -194,6 +194,7 @@ public class Scenario_2_3 extends BaseTest {
                 .getTableView()
                 .exportDataFromTable();
 
+
         Thread.sleep(5000);
 
 //        File tableOfElements = mainPage.scene
